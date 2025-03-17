@@ -15,6 +15,25 @@
         transition: transform 0.3s ease;
       }
     </style>
+    <script>
+      function updateParagraph() {
+        let userId = document.getElementById("userId");
+        let eingabe = userId.value;
+
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+          if (this.readyState == 4 && this.status == 200) {
+            outputParagraph.innerHTML = this.responseText;
+          }else{
+            alert("Error: " + this.status+" "+this.responseText);
+          }
+        };
+        xhr.open("POST", "loadProduction.php" , true);
+        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhr.send("userId=" + eingabe);
+
+      }
+    </script>
   </head>
   <body class="d-flex flex-column min-vh-100">
     <!-- Navigation Bar -->
@@ -126,6 +145,18 @@
       </div>
     </div>
 
+    <!-- ID Input Section -->
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-12 text-center">
+          <h2>Enter Your ID</h2>
+          <input type="text" id="userId" class="form-control my-3" placeholder="Enter your ID" />
+          <button class="btn btn-primary" onclick="updateParagraph()">Submit</button>
+          <p id="outputParagraph" class="mt-3"></p>
+        </div>
+      </div>
+    </div>
+
     <!-- Footer -->
     <footer class="text-primary text-center py-3 mt-auto">
       <p>&copy; 2024 Sports Shop</p>
@@ -133,5 +164,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+
   </body>
 </html>
